@@ -26,12 +26,15 @@ tauLC=tau/(1+constanteK);
 r=kh*v; %r=ka*v y kh=ka;
 tiempo=0;
 e=r-c1;
+FSV=2.5;
+FK=5;
 funcion=@(m1,y)(m1/betaLC)-((y-Te)/tauLC);
-
+funcionValvula=@(p,y)(p/FSV)-(y/FK);
 for i=1:iter
-    e=r-c1
+    e=r-c1;
     m=kc*e;
-    m1=kv*m;
+    m1Nuevo=m1+deltaT*funcionValvula(m,m1);
+    m1=m1Nuevo;
     Cnuevo=c+deltaT*funcion(m1,c);
     c=Cnuevo;
     c1=kh*c;
